@@ -1,7 +1,11 @@
-# Getting Started with Create React App
+# Getting Started with Substack React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## React App Installation
 
+To install this react app into your Substack pages, you will need to host this app on your own server or a CDN. The complete React app is integrated via a GTM Custom HTML tag.
+
+
+# Developer Docs
 ## Available Scripts
 
 In the project directory, you can run:
