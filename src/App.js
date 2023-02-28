@@ -1,25 +1,37 @@
-import logo from './logo.svg';
+
 import './App.css';
 
+import {default as MessageWindow} from './MessageWindow';
+import {default as MessageForm} from './MessageForm';
+
+import {useState} from 'react';
+
+
+function ChatWindow() {
+    const [currentMessages, updateMessages] = useState([{user: 'none', text: "How may I help you?"}]);
+
+    return (
+        <div className="ChatWindow">
+        <MessageWindow messages={currentMessages} />
+        <MessageForm userInputEvent={updateMessages} currentMessages={currentMessages} />
+        </div>
+    );
+}
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    return (
+        <div className="App">
+        <header className="App-header">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+        Flatland ChatGPT Bot
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+        </header>
+
+        <main className="App-container">
+        <ChatWindow />
+        </main>
+        </div>
+    );
 }
 
 export default App;
