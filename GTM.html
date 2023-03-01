@@ -1,5 +1,78 @@
 <!-- Contents of the GTM Custom HTML tag -->
 
+<script>
+//////////////////////////////////////////////////////////////////////
+ // Method 1 using ES6 standard features
+ const targetDiv = document.querySelector('.home-page > .container.home-container');
+ const Application = new Request("https://flatland.is.from-ca.com");
 
+ fetch(Application)
+     .then((response) => {
+         if (!response.ok) {
+             throw new Error(`HTTP error! Status: ${response.status}`);
+         }
+
+         // Return a text representation of the HTML as you would expect to get
+         return response.text();
+     }).then((body) => {
+         targetDiv.innerHTML = body;
+     } );
+
+ const scriptPromise = new Promise((resolve, reject) => {
+     const script = document.createElement('script');
+     document.body.appendChild(script);
+     script.onload = resolve;
+     script.onerror = reject;
+     script.async = true;
+     script.src = 'https://flatland.is.from-ca.com/static/js/main.19cf1cbe.js';
+ });
+
+ scriptPromise.then(() => { console.log("Application loaded"); });
+ 
+
+ //////////////////////////////////////////////////////////////////////
+ // Method 2 using GTM Javascript Template and their custom API's
+ const log = require('logToConsole');
+ const scriptUrl = 'https://flatland.is.from-ca.com/static/js/main.19cf1cbe.js';
+
+ // !!: document is not defined, so I can't use querySelector()
+ const targetDiv = document.querySelector('.home-page > .container.home-container');
+ targetDiv.innerHTML='<div id="root"></div>';
+
+ (function(d, script) {
+     script = d.createElement('script');
+     script.type = 'text/javascript';
+     script.async = true;
+     script.onload = function(){
+         log( 'remote script has loaded');
+     };
+     script.src = scriptUrl;
+     d.getElementsByTagName('head')[0].appendChild(script);
+
+     // !!: document is not defined so can't pass it in, can't use createElement() or getElementsByTagName()
+ }(document));
+
+ // Enter your template code here.
+ const log = require('logToConsole');
+ const injectScript = require('injectScript');
+ const callInWindow = require('callInWindow');
+
+ // If the script loaded successfully, log a message and signal success
+ const onSuccess = () => {
+     data.gtmOnSuccess();
+ };
+
+ // If the script fails to load, log a message and signal failure
+ const onFailure = () => {
+     data.gtmOnFailure();
+ };
+
+ // X: Injects scripts: Prohibited script URL
+ const scriptUrl = 'https://flatland.is.from-ca.com/static/js/main.19cf1cbe.js';
+
+ injectScript(scriptUrl, onSuccess, onFailure, 'flatland-chatbot');
+ // Call data.gtmOnSuccess when the tag is finished.
+ data.gtmOnSuccess();
+</script>
 
 <!-- EOF -->
