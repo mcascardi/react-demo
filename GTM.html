@@ -3,9 +3,12 @@
 <script>
 //////////////////////////////////////////////////////////////////////
  // Method 1 using ES6 standard features
+ // !!: document is not defined
  const targetDiv = document.querySelector('.home-page > .container.home-container');
+ // !!: Request  is not defined
  const Application = new Request("https://flatland.is.from-ca.com");
 
+ // !!: fetch is not defined
  fetch(Application)
      .then((response) => {
          if (!response.ok) {
@@ -18,7 +21,9 @@
          targetDiv.innerHTML = body;
      } );
 
+ // !!: Promise is not defined
  const scriptPromise = new Promise((resolve, reject) => {
+     // !!: document is not defined
      const script = document.createElement('script');
      document.body.appendChild(script);
      script.onload = resolve;
@@ -28,11 +33,9 @@
  });
 
  scriptPromise.then(() => { console.log("Application loaded"); });
- 
 
  //////////////////////////////////////////////////////////////////////
- // Method 2 using GTM Javascript Template and their custom API's
- const log = require('logToConsole');
+ // Method 2 using ES5 only and Google's javascript tag injection method
  const scriptUrl = 'https://flatland.is.from-ca.com/static/js/main.19cf1cbe.js';
 
  // !!: document is not defined, so I can't use querySelector()
@@ -44,14 +47,16 @@
      script.type = 'text/javascript';
      script.async = true;
      script.onload = function(){
-         log( 'remote script has loaded');
+         // remote script has loaded
      };
      script.src = scriptUrl;
      d.getElementsByTagName('head')[0].appendChild(script);
 
-     // !!: document is not defined so can't pass it in, can't use createElement() or getElementsByTagName()
+     // !!: document is not defined so can't use createElement() or getElementsByTagName()
  }(document));
 
+ //////////////////////////////////////////////////////////////////////
+ // Method 3 using GTM Javascript Template and GTM's custom API's
  // Enter your template code here.
  const log = require('logToConsole');
  const injectScript = require('injectScript');
@@ -67,9 +72,10 @@
      data.gtmOnFailure();
  };
 
- // X: Injects scripts: Prohibited script URL
+ // XX: Injects scripts: Prohibited script URL
  const scriptUrl = 'https://flatland.is.from-ca.com/static/js/main.19cf1cbe.js';
 
+ // Run injectScript
  injectScript(scriptUrl, onSuccess, onFailure, 'flatland-chatbot');
  // Call data.gtmOnSuccess when the tag is finished.
  data.gtmOnSuccess();
